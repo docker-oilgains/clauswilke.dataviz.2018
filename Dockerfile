@@ -65,6 +65,9 @@ RUN install2.r --error \
     mgcv
 
 # copy the bookdown files
-# COPY dataviz /home/rstudio
+  # use COPY if you have the bookdown files locally
+  # COPY dataviz /home/rstudio
+
+# clone the book files from github and set read/write rights
 RUN git clone https://github.com/clauswilke/dataviz.git /home/rstudio/book
 RUN chmod a+rwx -R /home/rstudio/book
