@@ -15,7 +15,9 @@ RUN apt-get -y update \
     python-pip \
     libproj-dev \
     # svn was used to install colorspace from source, v 1.4.0
-    subversion
+    subversion \
+    # for V8
+    libv8-3.14-dev
 
 # pre-requisites gor GDAL, rgdal and units
 RUN apt-get install -y \
@@ -31,7 +33,6 @@ RUN install2.r --error \
     egg \
     gapminder \
     units \
-    ggforce \
     ggrepel \
     ggridges \
     hexbin \
@@ -44,11 +45,25 @@ RUN install2.r --error \
     bookdown \
     caTools \
     bitops \
-    rgeos
+    rgeos \
+    V8 \
+    concaveman \
+    productplots \
+    mgcv
+
+
+# install from source so geom_sf() is recognized
+RUN Rscript -e "devtools::install_github('tidyverse/ggplot2', force = TRUE)"
 
 # this worked. using install_svn did not work with devtools or remotes
 RUN Rscript -e "devtools::install_github('rforge/colorspace', subdir = 'pkg/colorspace')"
 # RUN Rscript -e "remotes::install_svn('svn://r-forge.r-project.org/svnroot/colorspace/pkg/colorspace')"
+
+# RUN install2.r --error \
+#     V8 \
+#     concaveman
+
+RUN Rscript -e "devtools::install_github('thomasp85/ggforce')"
 
 # packages in github
 RUN Rscript -e "devtools::install_github(c('clauswilke/colorblindr', \
@@ -56,13 +71,10 @@ RUN Rscript -e "devtools::install_github(c('clauswilke/colorblindr', \
                 'wilkelab/cowplot', \
                 'clauswilke/dviz.supp'))"
 
-# install from source so geom_sf() is recognized
-RUN Rscript -e "devtools::install_github('tidyverse/ggplot2', force = TRUE)"
-
-# last minute additions
-RUN install2.r --error \
-    productplots \
-    mgcv
+# # last minute additions
+# RUN install2.r --error \
+#     productplots \
+#     mgcv
 
 # copy the bookdown files
   # use COPY if you have the bookdown files locally
