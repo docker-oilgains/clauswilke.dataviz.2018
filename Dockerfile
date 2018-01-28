@@ -55,29 +55,22 @@ RUN install2.r --error \
 # install from source so geom_sf() is recognized
 RUN Rscript -e "devtools::install_github('tidyverse/ggplot2', force = TRUE)"
 
-# this worked. using install_svn did not work with devtools or remotes
+# install_github() worked. install_svn did not work with devtools or remotes
 RUN Rscript -e "devtools::install_github('rforge/colorspace', subdir = 'pkg/colorspace')"
 # RUN Rscript -e "remotes::install_svn('svn://r-forge.r-project.org/svnroot/colorspace/pkg/colorspace')"
 
-# RUN install2.r --error \
-#     V8 \
-#     concaveman
-
+# packages in github
+# install ggforce from development version
 RUN Rscript -e "devtools::install_github('thomasp85/ggforce')"
 
-# packages in github
 RUN Rscript -e "devtools::install_github(c('clauswilke/colorblindr', \
                 'clauswilke/ggridges', \
                 'wilkelab/cowplot', \
                 'clauswilke/dviz.supp'))"
 
-# # last minute additions
-# RUN install2.r --error \
-#     productplots \
-#     mgcv
-
 # copy the bookdown files
-  # use COPY if you have the bookdown files locally
+  # use COPY if you have the bookdown files locally.
+  # put them under a folder dataviz
   # COPY dataviz /home/rstudio
 
 # clone the book files from github and set read/write rights
