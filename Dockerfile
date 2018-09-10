@@ -90,17 +90,18 @@ RUN Rscript -e "devtools::install_github('thomasp85/ggforce')"
 # install patchwork from Gtihub
 RUN Rscript -e "devtools::install_github('thomasp85/patchwork')"
 
+# This is the only building method that thar worked for colorspace
+# It is related to some new functions such as 'scale_fill_discrete_carto'
+# copy colorspace package source folder
+COPY colorspace /home/rstudio/pkg/colorspace
+RUN Rscript -e "install.packages('/home/rstudio/pkg/colorspace', repos = NULL, type='source')"
+
 # Claus Wilke packages
 RUN Rscript -e "devtools::install_github(c('clauswilke/colorblindr', \
                 'clauswilke/ggridges', \
                 'wilkelab/cowplot', \
                 'clauswilke/dviz.supp'))"
 
-# This is th eonly building method that thar worked for colorspace
-# It is related to some new functions such as 'scale_fill_discrete_carto'
-# copy colorspace package source folder
-COPY colorspace /home/rstudio/pkg/colorspace
-RUN Rscript -e "install.packages('/home/rstudio/pkg/colorspace', repos = NULL, type='source')"
 
 # clone the book files from github and set read/write rights
 RUN git clone https://github.com/clauswilke/dataviz.git /home/rstudio/book
