@@ -1,0 +1,8 @@
+
+*.stackdump
+
+*.un~
+
+Dockerfile~
+
+*.swp
