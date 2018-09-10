@@ -1,0 +1,6 @@
+
+*.stackdump
+
+*.un~
+
+Dockerfile~
